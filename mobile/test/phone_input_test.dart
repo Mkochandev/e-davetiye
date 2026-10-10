@@ -17,6 +17,10 @@ void main() {
       expect(PhoneInput.validate('53211122334'), PhoneInput.invalidMessage);
     });
 
+    test('rejects landline numbers since the code is sent by SMS', () {
+      expect(PhoneInput.validate('342 111 22 33'), PhoneInput.notMobileMessage);
+    });
+
     test('builds E.164 with the fixed +90', () {
       expect(PhoneInput.toE164('532 111 22 33'), '+905321112233');
     });

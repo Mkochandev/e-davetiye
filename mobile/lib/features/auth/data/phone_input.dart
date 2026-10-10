@@ -4,11 +4,17 @@ import 'package:flutter/services.dart';
 abstract final class PhoneInput {
   static const length = 10;
   static const invalidMessage = 'Telefon numarası 10 haneli olmalı.';
+  static const notMobileMessage = 'Cep telefonu numarası 5 ile başlamalı.';
 
   static String digits(String text) => text.replaceAll(RegExp(r'\D'), '');
 
-  /// Geçerliyse `null`, değilse Türkçe hata.
-  static String? validate(String text) => digits(text).length == length ? null : invalidMessage;
+  /// Geçerliyse `null`, değilse Türkçe hata. Giriş kodu SMS'le gittiği için yalnız cep numarası (5XX).
+  static String? validate(String text) {
+    final d = digits(text);
+    if (d.length != length) return invalidMessage;
+    if (!d.startsWith('5')) return notMobileMessage;
+    return null;
+  }
 
   /// `532 111 22 33` → `+905321112233`
   static String toE164(String text) => '+90${digits(text)}';
