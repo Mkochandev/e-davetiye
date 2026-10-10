@@ -4,9 +4,12 @@ namespace App\Models;
 
 use App\Enums\RecipientChannel;
 use App\Enums\RsvpStatus;
+use App\Services\PhoneNumber;
 use Database\Factories\RecipientFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -53,5 +56,26 @@ class Recipient extends Model
     public function appUser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'phone_hash', 'phone_hash');
+    }
+
+    #[Scope]
+    protected function sent(Builder $query): void
+    {
+        $query->whereNotNull('sent_at');
+    }
+
+    /**
+     * Kişiye özel web davetiye linki (spec §3.4).
+     */
+    public function webUrl(): string
+    {
+        return url("/z/{$this->token}");
+    }
+
+    public function whatsappUrl(): string
+    {
+        $title = $this->invitation->event->title;
+
+        return PhoneNumber::whatsappUrl($this->phone, "{$title} sizi davet ediyor. Davetiyenizi açmak için: {$this->webUrl()}");
     }
 }

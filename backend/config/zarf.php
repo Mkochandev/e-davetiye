@@ -35,6 +35,15 @@ return [
     'product_id' => 'event_pack',
 
     /*
+    | Mağaza bağlantıları (/indir ve web davetiye teşekkür ekranı). Boşsa yer tutucu gösterilir.
+    */
+
+    'store_urls' => [
+        'ios' => env('APP_STORE_URL'),
+        'android' => env('PLAY_STORE_URL'),
+    ],
+
+    /*
     | Telefonla giriş (spec §2).
     */
 

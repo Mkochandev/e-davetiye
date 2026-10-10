@@ -38,4 +38,13 @@ class Invitation extends Model
     {
         return $this->hasMany(Recipient::class);
     }
+
+    /**
+     * LCV son tarihi (İstanbul günü) geçti mi? Son tarih günü dahil yanıt verilebilir.
+     */
+    public function rsvpClosed(): bool
+    {
+        return $this->rsvp_deadline !== null
+            && now('Europe/Istanbul')->toDateString() > $this->rsvp_deadline->toDateString();
+    }
 }

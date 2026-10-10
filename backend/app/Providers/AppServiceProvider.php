@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Models\SalonUser;
+use App\Services\Push\LogNotificationSender;
+use App\Services\Push\NotificationSender;
 use App\Services\Sms\LogSmsSender;
 use App\Services\Sms\NetgsmSmsSender;
 use App\Services\Sms\SmsSender;
@@ -36,6 +38,9 @@ class AppServiceProvider extends ServiceProvider
                 config('services.netgsm.header'),
             );
         });
+
+        // FCM gönderici Adım 9'da gelecek; o zamana kadar bildirimler kuyruktan geçip yalnız loglanır.
+        $this->app->bind(NotificationSender::class, LogNotificationSender::class);
     }
 
     /**
@@ -52,6 +57,8 @@ class AppServiceProvider extends ServiceProvider
                 $event->user->forceFill(['last_login_at' => now()])->saveQuietly();
             }
         });
+
+        RateLimiter::for('invite-page', fn (Request $request) => Limit::perMinute(60)->by($request->ip()));
 
         RateLimiter::for('otp-ip', fn (Request $request) => Limit::perHour(config('zarf.otp.per_ip_per_hour'))->by($request->ip()));
     }

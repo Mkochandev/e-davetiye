@@ -8,7 +8,10 @@ use App\Http\Resources\InvitationResource;
 use App\Models\Event;
 use App\Models\Invitation;
 use App\Models\Template;
+use App\Services\InvitationSender;
+use App\Services\RsvpStats;
 use App\Support\InvitationDefaults;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -75,6 +78,35 @@ class InvitationController extends Controller
         $invitation->save();
 
         return new InvitationResource($invitation->load('template'));
+    }
+
+    /**
+     * Henüz gönderilmemiş davetlileri gönderir (spec §3.4). Yanıtta yalnız bu çağrıda link alan davetliler var.
+     */
+    public function send(Event $event, InvitationSender $sender): JsonResponse
+    {
+        $invitation = $event->invitation ?? abort(404);
+        $invitation->setRelation('event', $event);
+
+        $sent = $sender->send($invitation);
+
+        return response()->json([
+            'in_app_count' => $sent['in_app']->count(),
+            'link_recipients' => $sent['link']->map(fn ($recipient) => [
+                'id' => $recipient->id,
+                'name' => $recipient->name,
+                'phone' => $recipient->phone,
+                'url' => $recipient->webUrl(),
+                'whatsapp_url' => $recipient->whatsappUrl(),
+            ])->all(),
+        ]);
+    }
+
+    public function stats(Event $event): JsonResponse
+    {
+        $event->invitation ?? abort(404);
+
+        return response()->json(RsvpStats::forEvent($event));
     }
 
     /**

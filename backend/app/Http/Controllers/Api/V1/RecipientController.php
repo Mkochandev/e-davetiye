@@ -23,9 +23,11 @@ class RecipientController extends Controller
     {
         $invitation = $event->invitation ?? abort(404);
 
-        return RecipientResource::collection(
-            $invitation->recipients()->with('appUser:id,phone_hash')->orderBy('id')->get(),
-        );
+        $invitation->setRelation('event', $event);
+        $recipients = $invitation->recipients()->with('appUser:id,phone_hash')->orderBy('id')->get();
+        $recipients->each->setRelation('invitation', $invitation);
+
+        return RecipientResource::collection($recipients);
     }
 
     /**

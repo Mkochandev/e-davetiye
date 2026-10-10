@@ -95,7 +95,6 @@ class ReservationService
         });
 
         if ($linked) {
-            // Çifte "Salonun etkinliği ekledi" push'u bu olaya bağlanacak (Adım 4/9).
             SalonEventLinked::dispatch($linked);
         }
 
