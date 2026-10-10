@@ -27,9 +27,9 @@ class InvitationScreen extends ConsumerWidget {
       body: switch (detail) {
         AsyncData(:final value) => _Body(detail: value),
         AsyncError(:final error) => ErrorState(
-            message: ApiException.from(error).message,
-            onRetry: () => ref.invalidate(envelopeProvider(id)),
-          ),
+          message: ApiException.from(error).message,
+          onRetry: () => ref.invalidate(envelopeProvider(id)),
+        ),
         _ => const LoadingState(),
       },
     );
@@ -64,8 +64,14 @@ class _Body extends StatelessWidget {
             key: const Key('cancelled-banner'),
             margin: const EdgeInsets.only(bottom: 16),
             padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(color: AppColors.accentSoft, borderRadius: BorderRadius.circular(AppRadius.input)),
-            child: const Text('Bu etkinlik iptal edildi', style: TextStyle(color: AppColors.accent, fontWeight: FontWeight.w600)),
+            decoration: BoxDecoration(
+              color: AppColors.accentSoft,
+              borderRadius: BorderRadius.circular(AppRadius.input),
+            ),
+            child: const Text(
+              'Bu etkinlik iptal edildi',
+              style: TextStyle(color: AppColors.accent, fontWeight: FontWeight.w600),
+            ),
           ),
         InvitationCard(
           config: d.config,

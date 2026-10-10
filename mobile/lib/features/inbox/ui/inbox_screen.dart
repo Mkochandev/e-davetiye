@@ -24,10 +24,10 @@ class InboxScreen extends ConsumerWidget {
       appBar: AppBar(title: const Text('Posta kutusu')),
       body: switch (inbox) {
         AsyncData(:final value) => RefreshIndicator(
-            onRefresh: refresh,
-            color: AppColors.accent,
-            child: value.isEmpty ? const _EmptyInbox() : _EnvelopeList(envelopes: value),
-          ),
+          onRefresh: refresh,
+          color: AppColors.accent,
+          child: value.isEmpty ? const _EmptyInbox() : _EnvelopeList(envelopes: value),
+        ),
         AsyncError(:final error) => ErrorState(message: ApiException.from(error).message, onRetry: refresh),
         _ => const LoadingState(),
       },
@@ -75,10 +75,7 @@ class _EnvelopeList extends StatelessWidget {
           const _SectionTitle('Açılmamış'),
           for (final e in unopened) _EnvelopeTile(envelope: e),
         ],
-        if (opened.isNotEmpty) ...[
-          const _SectionTitle('Açılmış'),
-          for (final e in opened) _EnvelopeTile(envelope: e),
-        ],
+        if (opened.isNotEmpty) ...[const _SectionTitle('Açılmış'), for (final e in opened) _EnvelopeTile(envelope: e)],
       ],
     );
   }
@@ -94,7 +91,12 @@ class _SectionTitle extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(4, 16, 4, 10),
       child: Text(
         text.toUpperCase(),
-        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, letterSpacing: 1.2, color: AppColors.inkSecondary),
+        style: const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 1.2,
+          color: AppColors.inkSecondary,
+        ),
       ),
     );
   }
@@ -128,9 +130,17 @@ class _EnvelopeTile extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(e.title, maxLines: 2, overflow: TextOverflow.ellipsis, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 18)),
+                      Text(
+                        e.title,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 18),
+                      ),
                       const SizedBox(height: 4),
-                      Text(AppFormat.eventDateTime(e.startsAt), style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 13)),
+                      Text(
+                        AppFormat.eventDateTime(e.startsAt),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 13),
+                      ),
                       const SizedBox(height: 8),
                       _StatusChip(envelope: e),
                     ],
@@ -163,7 +173,10 @@ class _StatusChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(999)),
-      child: Text(label, style: TextStyle(color: fg, fontSize: 12, fontWeight: FontWeight.w600)),
+      child: Text(
+        label,
+        style: TextStyle(color: fg, fontSize: 12, fontWeight: FontWeight.w600),
+      ),
     );
   }
 }

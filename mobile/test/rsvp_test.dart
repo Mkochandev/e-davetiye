@@ -15,8 +15,14 @@ void main() {
     });
 
     test('keeps the guest count between 1 and 10', () {
-      expect(const RsvpDraft(status: RsvpStatus.attending, guestCount: 0).validate(), 'Kişi sayısı 1 ile 10 arasında olmalı.');
-      expect(const RsvpDraft(status: RsvpStatus.attending, guestCount: 11).validate(), 'Kişi sayısı 1 ile 10 arasında olmalı.');
+      expect(
+        const RsvpDraft(status: RsvpStatus.attending, guestCount: 0).validate(),
+        'Kişi sayısı 1 ile 10 arasında olmalı.',
+      );
+      expect(
+        const RsvpDraft(status: RsvpStatus.attending, guestCount: 11).validate(),
+        'Kişi sayısı 1 ile 10 arasında olmalı.',
+      );
       expect(const RsvpDraft(status: RsvpStatus.attending, guestCount: 10).validate(), isNull);
 
       var draft = const RsvpDraft(status: RsvpStatus.attending, guestCount: 10);
@@ -39,7 +45,16 @@ void main() {
         ..on('GET /inbox/7', (_, _) => FakeResponse(200, envelopeDetailJson(7, deadline: '2027-06-01')))
         ..on('POST /inbox/7/rsvp', (_, body) {
           sent = body;
-          return FakeResponse(200, envelopeDetailJson(7, rsvp: body['status'] as String, guests: body['guest_count'] as int?, responded: true, deadline: '2027-06-01'));
+          return FakeResponse(
+            200,
+            envelopeDetailJson(
+              7,
+              rsvp: body['status'] as String,
+              guests: body['guest_count'] as int?,
+              responded: true,
+              deadline: '2027-06-01',
+            ),
+          );
         });
     });
 
@@ -73,7 +88,14 @@ void main() {
       }
       await tester.pumpAndSettle();
       expect(tester.widget<Text>(find.byKey(const Key('guest-count'))).data, '10');
-      expect(tester.widget<IconButton>(find.descendant(of: find.byKey(const Key('guest-plus')), matching: find.byType(IconButton))).onPressed, isNull);
+      expect(
+        tester
+            .widget<IconButton>(
+              find.descendant(of: find.byKey(const Key('guest-plus')), matching: find.byType(IconButton)),
+            )
+            .onPressed,
+        isNull,
+      );
 
       await tester.tap(find.byKey(const Key('guest-minus')));
       await tester.pumpAndSettle();
@@ -104,12 +126,15 @@ void main() {
     });
 
     testWidgets('shows the server message when the deadline passed meanwhile', (tester) async {
-      api.on('POST /inbox/7/rsvp', (_, _) => const FakeResponse(422, {
-            'message': 'LCV süresi doldu, yanıt verilemez.',
-            'errors': {
-              'status': ['LCV süresi doldu, yanıt verilemez.'],
-            },
-          }));
+      api.on(
+        'POST /inbox/7/rsvp',
+        (_, _) => const FakeResponse(422, {
+          'message': 'LCV süresi doldu, yanıt verilemez.',
+          'errors': {
+            'status': ['LCV süresi doldu, yanıt verilemez.'],
+          },
+        }),
+      );
       await openInvitation(tester);
       await scrollTo(tester, find.text('Katılamıyorum'));
       await tester.tap(find.text('Katılamıyorum'));
@@ -121,7 +146,11 @@ void main() {
     });
 
     testWidgets('is locked after the deadline and keeps the earlier answer visible', (tester) async {
-      api.on('GET /inbox/7', (_, _) => FakeResponse(200, envelopeDetailJson(7, rsvp: 'attending', guests: 2, responded: true, rsvpOpen: false)));
+      api.on(
+        'GET /inbox/7',
+        (_, _) =>
+            FakeResponse(200, envelopeDetailJson(7, rsvp: 'attending', guests: 2, responded: true, rsvpOpen: false)),
+      );
       await openInvitation(tester);
       await scrollTo(tester, find.byKey(const Key('rsvp-locked')));
 

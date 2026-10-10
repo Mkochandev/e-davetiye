@@ -12,27 +12,31 @@ final dioProvider = Provider<Dio>(createDio);
 Dio createDio(Ref ref) {
   final storage = ref.watch(tokenStorageProvider);
 
-  final dio = Dio(BaseOptions(
-    baseUrl: AppConfig.apiBaseUrl,
-    connectTimeout: const Duration(seconds: 15),
-    receiveTimeout: const Duration(seconds: 20),
-    headers: {'Accept': 'application/json'},
-  ));
+  final dio = Dio(
+    BaseOptions(
+      baseUrl: AppConfig.apiBaseUrl,
+      connectTimeout: const Duration(seconds: 15),
+      receiveTimeout: const Duration(seconds: 20),
+      headers: {'Accept': 'application/json'},
+    ),
+  );
 
-  dio.interceptors.add(InterceptorsWrapper(
-    onRequest: (options, handler) async {
-      final token = await storage.read();
-      if (token != null) options.headers['Authorization'] = 'Bearer $token';
-      handler.next(options);
-    },
-    onError: (error, handler) {
-      final hadToken = error.requestOptions.headers.containsKey('Authorization');
-      if (error.response?.statusCode == 401 && hadToken) {
-        ref.read(sessionProvider.notifier).expire();
-      }
-      handler.next(error);
-    },
-  ));
+  dio.interceptors.add(
+    InterceptorsWrapper(
+      onRequest: (options, handler) async {
+        final token = await storage.read();
+        if (token != null) options.headers['Authorization'] = 'Bearer $token';
+        handler.next(options);
+      },
+      onError: (error, handler) {
+        final hadToken = error.requestOptions.headers.containsKey('Authorization');
+        if (error.response?.statusCode == 401 && hadToken) {
+          ref.read(sessionProvider.notifier).expire();
+        }
+        handler.next(error);
+      },
+    ),
+  );
 
   return dio;
 }

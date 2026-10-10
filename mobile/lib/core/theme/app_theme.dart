@@ -7,7 +7,12 @@ abstract final class AppFonts {
   static const display = 'Fraunces';
 
   /// Fraunces değişken font olarak gömülü; ağırlık `wght` ekseniyle de verilmeli.
-  static TextStyle displayStyle({required double size, FontWeight weight = FontWeight.w500, Color? color, double? height}) {
+  static TextStyle displayStyle({
+    required double size,
+    FontWeight weight = FontWeight.w500,
+    Color? color,
+    double? height,
+  }) {
     return TextStyle(
       fontFamily: display,
       fontSize: size,
@@ -112,9 +117,8 @@ abstract final class AppTheme {
           ),
         ),
         iconTheme: WidgetStateProperty.resolveWith(
-          (states) => IconThemeData(
-            color: states.contains(WidgetState.selected) ? AppColors.accent : AppColors.inkSecondary,
-          ),
+          (states) =>
+              IconThemeData(color: states.contains(WidgetState.selected) ? AppColors.accent : AppColors.inkSecondary),
         ),
       ),
       snackBarTheme: const SnackBarThemeData(behavior: SnackBarBehavior.floating),

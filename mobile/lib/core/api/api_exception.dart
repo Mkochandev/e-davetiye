@@ -16,6 +16,15 @@ class ApiException implements Exception {
   static const networkMessage = 'Sunucuya ulaşılamadı. İnternet bağlantınızı kontrol edin.';
   static const unexpectedMessage = 'Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.';
 
+  /// İsteği çalıştırır; her hatayı [ApiException]'a çevirir.
+  static Future<T> guard<T>(Future<T> Function() request) async {
+    try {
+      return await request();
+    } catch (error) {
+      throw ApiException.from(error);
+    }
+  }
+
   bool get isUnauthorized => statusCode == 401;
   bool get isPackRequired => code == 'pack_required';
 
@@ -46,7 +55,8 @@ class ApiException implements Exception {
     }
 
     // 422'de alan mesajı, Laravel'in "(ve 1 hata daha)" eklenmiş özetinden daha açıktır.
-    final message = fieldErrors.values.firstOrNull ??
+    final message =
+        fieldErrors.values.firstOrNull ??
         serverMessage ??
         switch (status) {
           401 => 'Oturumunuz sona erdi. Lütfen tekrar giriş yapın.',

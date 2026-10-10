@@ -107,9 +107,7 @@ void main() {
   });
 
   testWidgets('shows the server message when the code request is throttled', (tester) async {
-    api.on('POST /auth/otp', (_, _) => const FakeResponse(429, {
-          'message': 'Yeni kod için 60 saniye bekleyin.',
-        }));
+    api.on('POST /auth/otp', (_, _) => const FakeResponse(429, {'message': 'Yeni kod için 60 saniye bekleyin.'}));
     await goToPhone(tester);
 
     await tester.enterText(find.byKey(const Key('phone-field')), '5321112233');

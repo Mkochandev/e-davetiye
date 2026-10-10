@@ -7,38 +7,94 @@ import 'package:zarf/core/invitation/palette.dart';
 
 /// Seed şablonları (spec §11 tablosu; backend TemplateSeeder ile aynı).
 const templates = <String, Map<String, dynamic>>{
-  'klasik': {'paper': '#FFFFFF', 'ink': '#17182A', 'muted': '#5F6273', 'accent': '#8A1F3D', 'frame': 'double', 'frame_color': '#ECE4E8', 'display_font': 'Fraunces', 'ornament': 'dot-rule'},
-  'modern': {'paper': '#FFFFFF', 'ink': '#17182A', 'muted': '#5F6273', 'accent': '#17182A', 'frame': 'none', 'display_font': 'Plus Jakarta Sans', 'ornament': 'top-band'},
-  'bahar': {'paper': '#F3F6F1', 'ink': '#17182A', 'muted': '#56614F', 'accent': '#5E7C55', 'frame': 'single', 'frame_color': '#D5DFD0', 'display_font': 'Fraunces', 'ornament': 'top-band'},
-  'minimal': {'paper': '#FAFAFA', 'ink': '#17182A', 'muted': '#5F6273', 'accent': '#5F6273', 'frame': 'single', 'frame_color': '#E3E4EA', 'display_font': 'Plus Jakarta Sans', 'ornament': 'none'},
-  'altin-varak': {'paper': '#FFFFFF', 'ink': '#17182A', 'muted': '#5F6273', 'accent': '#A8833A', 'frame': 'double', 'frame_color': '#E6D9BC', 'display_font': 'Fraunces', 'ornament': 'dot-rule'},
-  'gece-mavisi': {'paper': '#1D2340', 'ink': '#FFFFFF', 'muted': '#C9CBDA', 'accent': '#D9B46A', 'frame': 'single', 'frame_color': '#3A4266', 'display_font': 'Fraunces', 'ornament': 'dot-rule'},
+  'klasik': {
+    'paper': '#FFFFFF',
+    'ink': '#17182A',
+    'muted': '#5F6273',
+    'accent': '#8A1F3D',
+    'frame': 'double',
+    'frame_color': '#ECE4E8',
+    'display_font': 'Fraunces',
+    'ornament': 'dot-rule',
+  },
+  'modern': {
+    'paper': '#FFFFFF',
+    'ink': '#17182A',
+    'muted': '#5F6273',
+    'accent': '#17182A',
+    'frame': 'none',
+    'display_font': 'Plus Jakarta Sans',
+    'ornament': 'top-band',
+  },
+  'bahar': {
+    'paper': '#F3F6F1',
+    'ink': '#17182A',
+    'muted': '#56614F',
+    'accent': '#5E7C55',
+    'frame': 'single',
+    'frame_color': '#D5DFD0',
+    'display_font': 'Fraunces',
+    'ornament': 'top-band',
+  },
+  'minimal': {
+    'paper': '#FAFAFA',
+    'ink': '#17182A',
+    'muted': '#5F6273',
+    'accent': '#5F6273',
+    'frame': 'single',
+    'frame_color': '#E3E4EA',
+    'display_font': 'Plus Jakarta Sans',
+    'ornament': 'none',
+  },
+  'altin-varak': {
+    'paper': '#FFFFFF',
+    'ink': '#17182A',
+    'muted': '#5F6273',
+    'accent': '#A8833A',
+    'frame': 'double',
+    'frame_color': '#E6D9BC',
+    'display_font': 'Fraunces',
+    'ornament': 'dot-rule',
+  },
+  'gece-mavisi': {
+    'paper': '#1D2340',
+    'ink': '#FFFFFF',
+    'muted': '#C9CBDA',
+    'accent': '#D9B46A',
+    'frame': 'single',
+    'frame_color': '#3A4266',
+    'display_font': 'Fraunces',
+    'ornament': 'dot-rule',
+  },
 };
 
 TemplateConfig configOf(String slug) =>
     TemplateConfig.fromJson({'v': 1, 'body_font': 'Plus Jakarta Sans', ...templates[slug]!});
 
 Future<void> pumpCard(WidgetTester tester, TemplateConfig config, {InvitationTexts? texts}) async {
-  await tester.pumpWidget(MaterialApp(
-    home: Scaffold(
-      body: SingleChildScrollView(
-        child: InvitationCard(
-          config: config,
-          texts: texts ??
-              const InvitationTexts(
-                label: 'DÜĞÜN DAVETİ',
-                intro: 'Yılmaz ve Demir aileleri olarak',
-                names: 'Elif & Emre',
-                message: 'düğünümüzde sizi de aramızda görmekten mutluluk duyarız.',
-              ),
-          // 16:00 UTC = 19:00 İstanbul
-          startsAt: DateTime.utc(2027, 6, 12, 16),
-          venueName: 'Gül Düğün Salonu',
-          venueAddress: 'Şehitkamil, Gaziantep',
+  await tester.pumpWidget(
+    MaterialApp(
+      home: Scaffold(
+        body: SingleChildScrollView(
+          child: InvitationCard(
+            config: config,
+            texts:
+                texts ??
+                const InvitationTexts(
+                  label: 'DÜĞÜN DAVETİ',
+                  intro: 'Yılmaz ve Demir aileleri olarak',
+                  names: 'Elif & Emre',
+                  message: 'düğünümüzde sizi de aramızda görmekten mutluluk duyarız.',
+                ),
+            // 16:00 UTC = 19:00 İstanbul
+            startsAt: DateTime.utc(2027, 6, 12, 16),
+            venueName: 'Gül Düğün Salonu',
+            venueAddress: 'Şehitkamil, Gaziantep',
+          ),
         ),
       ),
     ),
-  ));
+  );
 }
 
 void main() {
@@ -51,7 +107,16 @@ void main() {
       await pumpCard(tester, config);
 
       // Çizim sırası sabit: yukarıdan aşağıya.
-      final order = ['card-label', 'card-intro', 'card-names', 'card-message', 'card-date', 'card-time', 'card-venue', 'card-address'];
+      final order = [
+        'card-label',
+        'card-intro',
+        'card-names',
+        'card-message',
+        'card-date',
+        'card-time',
+        'card-venue',
+        'card-address',
+      ];
       final ys = order.map((k) => tester.getTopLeft(find.byKey(Key(k))).dy).toList();
       expect(ys, orderedEquals([...ys]..sort()), reason: 'çizim sırası');
 
@@ -64,7 +129,9 @@ void main() {
       expect(find.byKey(const Key('card-top-band')), raw['ornament'] == 'top-band' ? findsOneWidget : findsNothing);
 
       // Renkler ve fontlar.
-      final paper = tester.widget<Container>(find.ancestor(of: find.byKey(Key('card-frame-${raw['frame']}')), matching: find.byType(Container)).last);
+      final paper = tester.widget<Container>(
+        find.ancestor(of: find.byKey(Key('card-frame-${raw['frame']}')), matching: find.byType(Container)).last,
+      );
       expect((paper.decoration! as BoxDecoration).color, Palette.hex(raw['paper'] as String));
 
       final names = tester.widget<Text>(find.byKey(const Key('card-names')));

@@ -10,9 +10,9 @@ class AppUser {
   bool get isProfileComplete => (name?.trim().isNotEmpty ?? false) && kvkkAcceptedAt != null;
 
   factory AppUser.fromJson(Map<String, dynamic> json) => AppUser(
-        id: json['id'] as int,
-        phone: json['phone'] as String,
-        name: json['name'] as String?,
-        kvkkAcceptedAt: json['kvkk_accepted_at'] == null ? null : DateTime.parse(json['kvkk_accepted_at'] as String),
-      );
+    id: json['id'] as int,
+    phone: json['phone'] as String,
+    name: json['name'] as String?,
+    kvkkAcceptedAt: json['kvkk_accepted_at'] == null ? null : DateTime.parse(json['kvkk_accepted_at'] as String),
+  );
 }

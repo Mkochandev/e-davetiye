@@ -112,7 +112,11 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
                         children: [
                           TextSpan(
                             text: 'Aydınlatma metnini',
-                            style: const TextStyle(color: AppColors.accent, fontWeight: FontWeight.w600, decoration: TextDecoration.underline),
+                            style: const TextStyle(
+                              color: AppColors.accent,
+                              fontWeight: FontWeight.w600,
+                              decoration: TextDecoration.underline,
+                            ),
                             recognizer: _noticeTap,
                           ),
                           const TextSpan(text: ' okudum; kişisel verilerimin işlenmesine açık rıza veriyorum.'),

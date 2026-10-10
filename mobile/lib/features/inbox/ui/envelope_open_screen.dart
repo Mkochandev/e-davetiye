@@ -56,12 +56,12 @@ class _EnvelopeOpenScreenState extends ConsumerState<EnvelopeOpenScreen> with Si
           child: switch (detail) {
             AsyncData(:final value) => _buildStage(value),
             AsyncError(:final error) => _StageMessage(
-                message: ApiException.from(error).message,
-                action: TextButton(
-                  onPressed: () => ref.invalidate(envelopeProvider(widget.id)),
-                  child: const Text('Tekrar dene', style: TextStyle(color: Colors.white)),
-                ),
+              message: ApiException.from(error).message,
+              action: TextButton(
+                onPressed: () => ref.invalidate(envelopeProvider(widget.id)),
+                child: const Text('Tekrar dene', style: TextStyle(color: Colors.white)),
               ),
+            ),
             _ => const Center(child: CircularProgressIndicator(strokeWidth: 2.4, color: Colors.white70)),
           },
         ),
@@ -81,7 +81,11 @@ class _EnvelopeOpenScreenState extends ConsumerState<EnvelopeOpenScreen> with Si
           child: Column(
             children: [
               const Spacer(),
-              Text(d.title, textAlign: TextAlign.center, style: AppFonts.displayStyle(size: 26, weight: FontWeight.w600, color: Colors.white)),
+              Text(
+                d.title,
+                textAlign: TextAlign.center,
+                style: AppFonts.displayStyle(size: 26, weight: FontWeight.w600, color: Colors.white),
+              ),
               const SizedBox(height: 6),
               Text(
                 d.cancelled ? 'Bu etkinlik iptal edildi' : 'seni davet ediyor',
@@ -141,7 +145,11 @@ class _StageMessage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(message, textAlign: TextAlign.center, style: const TextStyle(color: Colors.white70, fontSize: 16)),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.white70, fontSize: 16),
+            ),
             const SizedBox(height: 12),
             action,
           ],

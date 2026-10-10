@@ -22,10 +22,17 @@ class SplashScreen extends ConsumerWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Zarf', style: AppFonts.displayStyle(size: 40, weight: FontWeight.w600, color: Colors.white)),
+                Text(
+                  'Zarf',
+                  style: AppFonts.displayStyle(size: 40, weight: FontWeight.w600, color: Colors.white),
+                ),
                 const SizedBox(height: 32),
                 if (session case SessionUnreachable(:final message)) ...[
-                  Text(message, textAlign: TextAlign.center, style: const TextStyle(color: Colors.white70)),
+                  Text(
+                    message,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: Colors.white70),
+                  ),
                   const SizedBox(height: 20),
                   FilledButton(
                     onPressed: () => ref.read(sessionProvider.notifier).restore(),

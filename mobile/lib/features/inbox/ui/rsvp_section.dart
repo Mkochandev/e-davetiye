@@ -84,8 +84,14 @@ class _RsvpSectionState extends ConsumerState<RsvpSection> {
               width: double.infinity,
               margin: const EdgeInsets.only(bottom: 12),
               padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(color: AppColors.successSoft, borderRadius: BorderRadius.circular(AppRadius.input)),
-              child: const Text('Yanıtın iletildi. Teşekkürler!', style: TextStyle(color: AppColors.success, fontWeight: FontWeight.w600)),
+              decoration: BoxDecoration(
+                color: AppColors.successSoft,
+                borderRadius: BorderRadius.circular(AppRadius.input),
+              ),
+              child: const Text(
+                'Yanıtın iletildi. Teşekkürler!',
+                style: TextStyle(color: AppColors.success, fontWeight: FontWeight.w600),
+              ),
             ),
           _Summary(detail: d),
           TextButton(
@@ -104,9 +110,21 @@ class _RsvpSectionState extends ConsumerState<RsvpSection> {
         children: [
           Row(
             children: [
-              Expanded(child: _Choice(label: 'Katılıyorum', selected: _draft.status == RsvpStatus.attending, onTap: () => _choose(RsvpStatus.attending))),
+              Expanded(
+                child: _Choice(
+                  label: 'Katılıyorum',
+                  selected: _draft.status == RsvpStatus.attending,
+                  onTap: () => _choose(RsvpStatus.attending),
+                ),
+              ),
               const SizedBox(width: 10),
-              Expanded(child: _Choice(label: 'Katılamıyorum', selected: _draft.status == RsvpStatus.notAttending, onTap: () => _choose(RsvpStatus.notAttending))),
+              Expanded(
+                child: _Choice(
+                  label: 'Katılamıyorum',
+                  selected: _draft.status == RsvpStatus.notAttending,
+                  onTap: () => _choose(RsvpStatus.notAttending),
+                ),
+              ),
             ],
           ),
           if (_draft.status == RsvpStatus.attending) ...[
@@ -169,9 +187,9 @@ class _RsvpSectionState extends ConsumerState<RsvpSection> {
   }
 
   void _choose(RsvpStatus status) => setState(() {
-        _draft = _draft.copyWith(status: status);
-        _error = null;
-      });
+    _draft = _draft.copyWith(status: status);
+    _error = null;
+  });
 }
 
 class _Summary extends StatelessWidget {
@@ -188,7 +206,11 @@ class _Summary extends StatelessWidget {
     };
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
-      child: Text(text, key: const Key('rsvp-summary'), style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600)),
+      child: Text(
+        text,
+        key: const Key('rsvp-summary'),
+        style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+      ),
     );
   }
 }

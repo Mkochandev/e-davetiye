@@ -11,13 +11,15 @@ abstract final class InvitationActions {
 
   static Future<bool> addToCalendar(EnvelopeDetail d) {
     final start = d.startsAt.toLocal();
-    return cal.Add2Calendar.addEvent2Cal(cal.Event(
-      title: d.title,
-      description: d.texts.label.isEmpty ? null : d.texts.label,
-      location: [d.venueName, d.venueAddress].whereType<String>().where((s) => s.isNotEmpty).join(', '),
-      startDate: start,
-      endDate: d.endsAt?.toLocal() ?? start.add(defaultLength),
-    ));
+    return cal.Add2Calendar.addEvent2Cal(
+      cal.Event(
+        title: d.title,
+        description: d.texts.label.isEmpty ? null : d.texts.label,
+        location: [d.venueName, d.venueAddress].whereType<String>().where((s) => s.isNotEmpty).join(', '),
+        startDate: start,
+        endDate: d.endsAt?.toLocal() ?? start.add(defaultLength),
+      ),
+    );
   }
 
   /// iOS'ta Apple Haritalar, diğerlerinde Google Haritalar (uygulama yüklüyse o açılır).

@@ -31,16 +31,16 @@ class TemplateConfig {
   final String ornament;
 
   factory TemplateConfig.fromJson(Map<String, dynamic> json) => TemplateConfig(
-        paper: Palette.hex(json['paper'] as String),
-        ink: Palette.hex(json['ink'] as String),
-        muted: Palette.hex(json['muted'] as String),
-        accent: Palette.hex(json['accent'] as String),
-        frame: json['frame'] as String? ?? 'none',
-        frameColor: json['frame_color'] is String ? Palette.hex(json['frame_color'] as String) : null,
-        displayFont: json['display_font'] as String? ?? 'Fraunces',
-        bodyFont: json['body_font'] as String? ?? 'Plus Jakarta Sans',
-        ornament: json['ornament'] as String? ?? 'none',
-      );
+    paper: Palette.hex(json['paper'] as String),
+    ink: Palette.hex(json['ink'] as String),
+    muted: Palette.hex(json['muted'] as String),
+    accent: Palette.hex(json['accent'] as String),
+    frame: json['frame'] as String? ?? 'none',
+    frameColor: json['frame_color'] is String ? Palette.hex(json['frame_color'] as String) : null,
+    displayFont: json['display_font'] as String? ?? 'Fraunces',
+    bodyFont: json['body_font'] as String? ?? 'Plus Jakarta Sans',
+    ornament: json['ornament'] as String? ?? 'none',
+  );
 }
 
 class InvitationTexts {
@@ -52,9 +52,9 @@ class InvitationTexts {
   final String message;
 
   factory InvitationTexts.fromJson(Map<String, dynamic> json) => InvitationTexts(
-        label: (json['label'] as String? ?? '').trim(),
-        intro: (json['intro'] as String? ?? '').trim(),
-        names: (json['names'] as String? ?? '').trim(),
-        message: (json['message'] as String? ?? '').trim(),
-      );
+    label: (json['label'] as String? ?? '').trim(),
+    intro: (json['intro'] as String? ?? '').trim(),
+    names: (json['names'] as String? ?? '').trim(),
+    message: (json['message'] as String? ?? '').trim(),
+  );
 }

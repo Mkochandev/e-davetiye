@@ -40,16 +40,16 @@ class Envelope {
   bool get isOpened => openedAt != null;
 
   factory Envelope.fromJson(Map<String, dynamic> json) => Envelope(
-        id: json['id'] as int,
-        title: json['title'] as String,
-        startsAt: DateTime.parse(json['starts_at'] as String),
-        openedAt: _date(json['opened_at']),
-        rsvpStatus: RsvpStatus.parse(json['rsvp_status'] as String?),
-        envelopeColor: json['envelope_color'] as String,
-        sealColor: json['seal_color'] as String,
-        sealText: json['seal_text'] as String?,
-        cancelled: json['cancelled'] as bool? ?? false,
-      );
+    id: json['id'] as int,
+    title: json['title'] as String,
+    startsAt: DateTime.parse(json['starts_at'] as String),
+    openedAt: _date(json['opened_at']),
+    rsvpStatus: RsvpStatus.parse(json['rsvp_status'] as String?),
+    envelopeColor: json['envelope_color'] as String,
+    sealColor: json['seal_color'] as String,
+    sealText: json['seal_text'] as String?,
+    cancelled: json['cancelled'] as bool? ?? false,
+  );
 }
 
 /// Davetiyeyi çizmek ve LCV vermek için her şey (`GET /inbox/{id}`).

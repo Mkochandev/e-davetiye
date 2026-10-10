@@ -34,6 +34,9 @@ class PhoneInputFormatter extends TextInputFormatter {
       buffer.write(digits[i]);
     }
     final text = buffer.toString();
-    return TextEditingValue(text: text, selection: TextSelection.collapsed(offset: text.length));
+    return TextEditingValue(
+      text: text,
+      selection: TextSelection.collapsed(offset: text.length),
+    );
   }
 }

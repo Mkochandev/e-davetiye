@@ -15,7 +15,10 @@ class PrimaryButton extends StatelessWidget {
     return FilledButton(
       onPressed: loading ? null : onPressed,
       child: loading
-          ? const SizedBox.square(dimension: 22, child: CircularProgressIndicator(strokeWidth: 2.4, color: Colors.white))
+          ? const SizedBox.square(
+              dimension: 22,
+              child: CircularProgressIndicator(strokeWidth: 2.4, color: Colors.white),
+            )
           : Text(label),
     );
   }
@@ -103,6 +106,32 @@ class ErrorState extends StatelessWidget {
             OutlinedButton(onPressed: onRetry, child: const Text('Tekrar dene')),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// Küçük yuvarlak etiket.
+class Pill extends StatelessWidget {
+  const Pill({super.key, required this.label, this.accent = false, this.success = false});
+
+  final String label;
+  final bool accent;
+  final bool success;
+
+  @override
+  Widget build(BuildContext context) {
+    final (fg, bg) = success
+        ? (AppColors.success, AppColors.successSoft)
+        : accent
+        ? (AppColors.accent, AppColors.accentSoft)
+        : (AppColors.inkSecondary, AppColors.background);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(999)),
+      child: Text(
+        label,
+        style: TextStyle(color: fg, fontSize: 12, fontWeight: FontWeight.w600),
       ),
     );
   }

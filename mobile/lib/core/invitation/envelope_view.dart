@@ -166,11 +166,13 @@ class _FlapPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     canvas.save();
-    canvas.clipRRect(RRect.fromRectAndCorners(
-      Offset.zero & size,
-      topLeft: const Radius.circular(10),
-      topRight: const Radius.circular(10),
-    ));
+    canvas.clipRRect(
+      RRect.fromRectAndCorners(
+        Offset.zero & size,
+        topLeft: const Radius.circular(10),
+        topRight: const Radius.circular(10),
+      ),
+    );
     final path = Path()
       ..moveTo(0, 0)
       ..lineTo(size.width, 0)

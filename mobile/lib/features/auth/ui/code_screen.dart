@@ -117,7 +117,10 @@ class _CodeScreenState extends ConsumerState<CodeScreen> {
             if (_info != null)
               Padding(
                 padding: const EdgeInsets.only(top: 10),
-                child: Text(_info!, style: const TextStyle(color: AppColors.success, fontWeight: FontWeight.w500)),
+                child: Text(
+                  _info!,
+                  style: const TextStyle(color: AppColors.success, fontWeight: FontWeight.w500),
+                ),
               ),
             const SizedBox(height: 24),
             PrimaryButton(label: 'Doğrula', loading: _loading, onPressed: _verify),
@@ -139,7 +142,12 @@ class _CodeScreenState extends ConsumerState<CodeScreen> {
 
 /// Görünmez tek bir alan + 6 kutucuk. SMS kodu otomatik doldurmayı ve yapıştırmayı destekler.
 class _CodeBoxes extends StatelessWidget {
-  const _CodeBoxes({required this.controller, required this.focusNode, required this.enabled, required this.onCompleted});
+  const _CodeBoxes({
+    required this.controller,
+    required this.focusNode,
+    required this.enabled,
+    required this.onCompleted,
+  });
 
   final TextEditingController controller;
   final FocusNode focusNode;
@@ -188,10 +196,7 @@ class _CodeBoxes extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: AppColors.surface,
                         borderRadius: BorderRadius.circular(AppRadius.input),
-                        border: Border.all(
-                          color: active ? AppColors.ink : AppColors.border,
-                          width: active ? 1.5 : 1,
-                        ),
+                        border: Border.all(color: active ? AppColors.ink : AppColors.border, width: active ? 1.5 : 1),
                       ),
                       child: Text(
                         i < code.length ? code[i] : '',

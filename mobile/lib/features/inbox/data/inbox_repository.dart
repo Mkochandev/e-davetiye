@@ -11,31 +11,25 @@ class InboxRepository {
   final Dio _dio;
 
   Future<List<Envelope>> list() async {
-    final response = await _call(() => _dio.get('/inbox'));
+    final response = await ApiException.guard(() => _dio.get('/inbox'));
     return (response.data as List).map((e) => Envelope.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   Future<EnvelopeDetail> detail(int id) async {
-    final response = await _call(() => _dio.get('/inbox/$id'));
+    final response = await ApiException.guard(() => _dio.get('/inbox/$id'));
     return EnvelopeDetail.fromJson(response.data as Map<String, dynamic>);
   }
 
-  Future<void> open(int id) => _call(() => _dio.post('/inbox/$id/open'));
+  Future<void> open(int id) => ApiException.guard(() => _dio.post('/inbox/$id/open'));
 
   Future<EnvelopeDetail> rsvp(int id, RsvpStatus status, int? guestCount) async {
-    final response = await _call(() => _dio.post('/inbox/$id/rsvp', data: {
-          'status': status.value,
-          if (status == RsvpStatus.attending) 'guest_count': guestCount,
-        }));
+    final response = await ApiException.guard(
+      () => _dio.post(
+        '/inbox/$id/rsvp',
+        data: {'status': status.value, if (status == RsvpStatus.attending) 'guest_count': guestCount},
+      ),
+    );
     return EnvelopeDetail.fromJson(response.data as Map<String, dynamic>);
-  }
-
-  static Future<Response<dynamic>> _call(Future<Response<dynamic>> Function() request) async {
-    try {
-      return await request();
-    } catch (error) {
-      throw ApiException.from(error);
-    }
   }
 }
 
@@ -81,5 +75,4 @@ class EnvelopeController extends AsyncNotifier<EnvelopeDetail> {
   }
 }
 
-final envelopeProvider =
-    AsyncNotifierProvider.family<EnvelopeController, EnvelopeDetail, int>(EnvelopeController.new);
+final envelopeProvider = AsyncNotifierProvider.family<EnvelopeController, EnvelopeDetail, int>(EnvelopeController.new);

@@ -23,7 +23,13 @@ class InvitationCard extends StatelessWidget {
   final String? venueName;
   final String? venueAddress;
 
-  TextStyle _font(String family, {required double size, FontWeight weight = FontWeight.w400, Color? color, double height = 1.5}) {
+  TextStyle _font(
+    String family, {
+    required double size,
+    FontWeight weight = FontWeight.w400,
+    Color? color,
+    double height = 1.5,
+  }) {
     return TextStyle(
       fontFamily: family,
       fontSize: size,
@@ -55,7 +61,12 @@ class InvitationCard extends StatelessWidget {
           ),
         if (texts.intro.isNotEmpty) ...[
           gap(18),
-          Text(texts.intro, key: const Key('card-intro'), textAlign: TextAlign.center, style: _font(body, size: 15, color: c.muted)),
+          Text(
+            texts.intro,
+            key: const Key('card-intro'),
+            textAlign: TextAlign.center,
+            style: _font(body, size: 15, color: c.muted),
+          ),
         ],
         gap(14),
         Text(
@@ -66,7 +77,12 @@ class InvitationCard extends StatelessWidget {
         ),
         if (texts.message.isNotEmpty) ...[
           gap(14),
-          Text(texts.message, key: const Key('card-message'), textAlign: TextAlign.center, style: _font(body, size: 15, color: c.muted)),
+          Text(
+            texts.message,
+            key: const Key('card-message'),
+            textAlign: TextAlign.center,
+            style: _font(body, size: 15, color: c.muted),
+          ),
         ],
         if (c.ornament == 'dot-rule')
           Padding(
@@ -77,7 +93,11 @@ class InvitationCard extends StatelessWidget {
               children: [
                 Container(width: 48, height: 1, color: c.accent.withValues(alpha: 0.6)),
                 const SizedBox(width: 10),
-                Container(width: 6, height: 6, decoration: BoxDecoration(color: c.accent, shape: BoxShape.circle)),
+                Container(
+                  width: 6,
+                  height: 6,
+                  decoration: BoxDecoration(color: c.accent, shape: BoxShape.circle),
+                ),
                 const SizedBox(width: 10),
                 Container(width: 48, height: 1, color: c.accent.withValues(alpha: 0.6)),
               ],
@@ -85,16 +105,36 @@ class InvitationCard extends StatelessWidget {
           )
         else
           gap(24),
-        Text(AppFormat.date(startsAt), key: const Key('card-date'), textAlign: TextAlign.center, style: _font(c.displayFont, size: 24, weight: FontWeight.w500, height: 1.2)),
+        Text(
+          AppFormat.date(startsAt),
+          key: const Key('card-date'),
+          textAlign: TextAlign.center,
+          style: _font(c.displayFont, size: 24, weight: FontWeight.w500, height: 1.2),
+        ),
         gap(4),
-        Text(AppFormat.dayAndTime(startsAt), key: const Key('card-time'), textAlign: TextAlign.center, style: _font(body, size: 15, color: c.muted)),
+        Text(
+          AppFormat.dayAndTime(startsAt),
+          key: const Key('card-time'),
+          textAlign: TextAlign.center,
+          style: _font(body, size: 15, color: c.muted),
+        ),
         if (venueName?.isNotEmpty ?? false) ...[
           gap(18),
-          Text(venueName!, key: const Key('card-venue'), textAlign: TextAlign.center, style: _font(body, size: 16, weight: FontWeight.w600)),
+          Text(
+            venueName!,
+            key: const Key('card-venue'),
+            textAlign: TextAlign.center,
+            style: _font(body, size: 16, weight: FontWeight.w600),
+          ),
         ],
         if (venueAddress?.isNotEmpty ?? false) ...[
           gap(2),
-          Text(venueAddress!, key: const Key('card-address'), textAlign: TextAlign.center, style: _font(body, size: 14, color: c.muted)),
+          Text(
+            venueAddress!,
+            key: const Key('card-address'),
+            textAlign: TextAlign.center,
+            style: _font(body, size: 14, color: c.muted),
+          ),
         ],
       ],
     );
@@ -118,7 +158,10 @@ class InvitationCard extends StatelessWidget {
             child: IgnorePointer(
               child: Container(
                 margin: const EdgeInsets.all(5),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all(color: frameColor)),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: frameColor),
+                ),
               ),
             ),
           ),

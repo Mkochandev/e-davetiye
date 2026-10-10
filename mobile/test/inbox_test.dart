@@ -14,11 +14,14 @@ void main() {
   });
 
   testWidgets('groups envelopes into unopened and opened sections', (tester) async {
-    api.on('GET /inbox', (_, _) => FakeResponse(200, [
-          envelopeJson(1, title: 'Elif & Emre'),
-          envelopeJson(2, title: 'Zeynep & Can', opened: true, rsvp: 'attending'),
-          envelopeJson(3, title: 'Ali Kına', opened: true, cancelled: true),
-        ]));
+    api.on(
+      'GET /inbox',
+      (_, _) => FakeResponse(200, [
+        envelopeJson(1, title: 'Elif & Emre'),
+        envelopeJson(2, title: 'Zeynep & Can', opened: true, rsvp: 'attending'),
+        envelopeJson(3, title: 'Ali Kına', opened: true, cancelled: true),
+      ]),
+    );
 
     await pumpApp(tester, api, token: 't');
 
@@ -105,9 +108,13 @@ void main() {
   });
 
   test('builds directions links for each platform', () {
-    expect(InvitationActions.directionsUri(37.0662, 37.3833, platform: TargetPlatform.android).toString(),
-        'https://www.google.com/maps/dir/?api=1&destination=37.0662%2C37.3833');
-    expect(InvitationActions.directionsUri(37.0662, 37.3833, platform: TargetPlatform.iOS).toString(),
-        'https://maps.apple.com/?daddr=37.0662%2C37.3833');
+    expect(
+      InvitationActions.directionsUri(37.0662, 37.3833, platform: TargetPlatform.android).toString(),
+      'https://www.google.com/maps/dir/?api=1&destination=37.0662%2C37.3833',
+    );
+    expect(
+      InvitationActions.directionsUri(37.0662, 37.3833, platform: TargetPlatform.iOS).toString(),
+      'https://maps.apple.com/?daddr=37.0662%2C37.3833',
+    );
   });
 }

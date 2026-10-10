@@ -71,7 +71,10 @@ class _PhoneScreenState extends ConsumerState<PhoneScreen> {
                 hintText: '5XX XXX XX XX',
                 prefixIcon: Padding(
                   padding: EdgeInsets.only(left: 16, right: 8),
-                  child: Text('+90', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: AppColors.ink)),
+                  child: Text(
+                    '+90',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: AppColors.ink),
+                  ),
                 ),
                 prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
               ),

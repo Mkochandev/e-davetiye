@@ -11,9 +11,9 @@ class RsvpDraft {
   final int guestCount;
 
   factory RsvpDraft.from(EnvelopeDetail detail) => RsvpDraft(
-        status: detail.rsvpStatus == RsvpStatus.pending ? null : detail.rsvpStatus,
-        guestCount: detail.guestCount ?? 1,
-      );
+    status: detail.rsvpStatus == RsvpStatus.pending ? null : detail.rsvpStatus,
+    guestCount: detail.guestCount ?? 1,
+  );
 
   RsvpDraft copyWith({RsvpStatus? status, int? guestCount}) =>
       RsvpDraft(status: status ?? this.status, guestCount: guestCount ?? this.guestCount);
