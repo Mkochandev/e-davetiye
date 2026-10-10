@@ -73,3 +73,37 @@ class EmptyState extends StatelessWidget {
     );
   }
 }
+
+class LoadingState extends StatelessWidget {
+  const LoadingState({super.key});
+
+  @override
+  Widget build(BuildContext context) => const Center(child: CircularProgressIndicator(strokeWidth: 2.4));
+}
+
+/// Yüklenemedi; Türkçe mesaj ve "Tekrar dene".
+class ErrorState extends StatelessWidget {
+  const ErrorState({super.key, required this.message, required this.onRetry});
+
+  final String message;
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.cloud_off_outlined, size: 40, color: AppColors.inkSecondary),
+            const SizedBox(height: 16),
+            Text(message, textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodyLarge),
+            const SizedBox(height: 16),
+            OutlinedButton(onPressed: onRetry, child: const Text('Tekrar dene')),
+          ],
+        ),
+      ),
+    );
+  }
+}

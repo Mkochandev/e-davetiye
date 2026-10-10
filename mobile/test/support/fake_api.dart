@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:zarf/app.dart';
 import 'package:zarf/core/api/api_client.dart';
@@ -55,6 +56,8 @@ Map<String, dynamic> userJson({String? name, bool consented = false}) => {
 
 /// Uygulamayı sahte API ve bellek içi token deposuyla açar.
 Future<void> pumpApp(WidgetTester tester, FakeApi api, {String? token}) async {
+  await initializeDateFormatting('tr_TR');
+  api.routes.putIfAbsent('GET /inbox', () => (_, _) => const FakeResponse(200, []));
   await tester.pumpWidget(ProviderScope(
     overrides: [
       tokenStorageProvider.overrideWithValue(MemoryTokenStorage(token)),
@@ -70,3 +73,71 @@ class DioUnreachable extends DioException {
   DioUnreachable(RequestOptions request)
       : super(requestOptions: request, type: DioExceptionType.connectionError, message: 'offline');
 }
+
+const klasikConfig = {
+  'v': 1,
+  'paper': '#FFFFFF',
+  'ink': '#17182A',
+  'muted': '#5F6273',
+  'accent': '#8A1F3D',
+  'frame': 'double',
+  'frame_color': '#ECE4E8',
+  'display_font': 'Fraunces',
+  'body_font': 'Plus Jakarta Sans',
+  'ornament': 'dot-rule',
+};
+
+Map<String, dynamic> envelopeJson(int id, {String title = 'Elif & Emre', bool opened = false, String rsvp = 'pending', bool cancelled = false}) => {
+      'id': id,
+      'title': title,
+      'event_type': 'wedding',
+      'starts_at': '2027-06-12T16:00:00.000000Z',
+      'sent_at': '2026-10-01T10:00:00.000000Z',
+      'opened_at': opened ? '2026-10-02T10:00:00.000000Z' : null,
+      'rsvp_status': rsvp,
+      'envelope_color': 'sage',
+      'seal_color': 'bordo',
+      'seal_text': 'E&E',
+      'cancelled': cancelled,
+    };
+
+Map<String, dynamic> envelopeDetailJson(
+  int id, {
+  String rsvp = 'pending',
+  int? guests,
+  bool responded = false,
+  bool rsvpOpen = true,
+  bool cancelled = false,
+  String? deadline,
+}) =>
+    {
+      'id': id,
+      'template': {'slug': 'klasik', 'config': klasikConfig},
+      'texts': {
+        'label': 'DÜĞÜN DAVETİ',
+        'intro': '',
+        'names': 'Elif & Emre',
+        'message': 'düğünümüzde sizi de aramızda görmekten mutluluk duyarız.',
+      },
+      'event': {
+        'type': 'wedding',
+        'title': 'Elif & Emre',
+        'starts_at': '2027-06-12T16:00:00.000000Z',
+        'ends_at': '2027-06-12T20:00:00.000000Z',
+        'venue_name': 'Gül Düğün Salonu',
+        'venue_address': 'Şehitkamil, Gaziantep',
+        'latitude': 37.0662,
+        'longitude': 37.3833,
+        'cancelled': cancelled,
+      },
+      'envelope_color': 'sage',
+      'seal_color': 'bordo',
+      'seal_text': 'E&E',
+      'sent_at': '2026-10-01T10:00:00.000000Z',
+      'opened_at': null,
+      'rsvp_status': rsvp,
+      'guest_count': guests,
+      'responded_at': responded ? '2026-10-03T10:00:00.000000Z' : null,
+      'rsvp_deadline': deadline,
+      'rsvp_open': rsvpOpen,
+    };

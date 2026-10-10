@@ -15,6 +15,15 @@ abstract final class AppFormat {
   /// "12 Haziran 2027"
   static String date(DateTime utc) => DateFormat('d MMMM y', locale).format(toIstanbul(utc));
 
+  /// "Cumartesi · 19:00"
+  static String dayAndTime(DateTime utc) {
+    final local = toIstanbul(utc);
+    return '${DateFormat('EEEE', locale).format(local)} · ${DateFormat('HH:mm', locale).format(local)}';
+  }
+
+  /// Takvim tarihi (`rsvp_deadline`, `2027-06-01`) → "1 Haziran 2027"
+  static String calendarDate(String ymd) => DateFormat('d MMMM y', locale).format(DateTime.parse(ymd));
+
   /// `5321112233` → `0532 111 22 33`
   static String nationalPhone(String e164) {
     final digits = e164.startsWith('+90') ? e164.substring(3) : e164;

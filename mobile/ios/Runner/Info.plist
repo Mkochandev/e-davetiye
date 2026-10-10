@@ -66,6 +66,12 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Davet edildiğin etkinliği takvimine eklemek için.</string>
+	<key>NSCalendarsWriteOnlyAccessUsageDescription</key>
+	<string>Davet edildiğin etkinliği takvimine eklemek için.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Takvim ekranında konum önerileri için.</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsLocalNetworking</key>

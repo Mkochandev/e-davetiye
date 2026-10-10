@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/router/router.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/theme/tokens.dart';
-import '../../../core/widgets/envelope_art.dart';
+import '../../../core/invitation/envelope_view.dart';
 
 /// M1 — Tanıtım.
 class WelcomeScreen extends StatelessWidget {
@@ -20,7 +20,7 @@ class WelcomeScreen extends StatelessWidget {
           child: Column(
             children: [
               const Spacer(flex: 2),
-              const EnvelopeArt(width: 260),
+              const EnvelopeView(color: 'sage', sealColor: 'bordo', sealText: 'Z', width: 260),
               const SizedBox(height: 48),
               Text(
                 'Davetiyen zarfında gelsin',

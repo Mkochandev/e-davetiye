@@ -51,7 +51,7 @@ void main() {
       await pumpApp(tester, api, token: 'valid');
 
       expect(find.text('Posta kutun boş'), findsOneWidget);
-      expect(api.requests.single.headers['Authorization'], 'Bearer valid');
+      expect(api.requests.every((r) => r.headers['Authorization'] == 'Bearer valid'), isTrue);
 
       await tester.tap(find.text('Etkinliklerim').last);
       await tester.pumpAndSettle();
