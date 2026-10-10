@@ -46,4 +46,12 @@ class Recipient extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Numarası uygulamada kayıtlı kullanıcı (henüz bağlanmamış olsa da).
+     */
+    public function appUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'phone_hash', 'phone_hash');
+    }
 }

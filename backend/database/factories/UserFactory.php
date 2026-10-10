@@ -16,7 +16,7 @@ class UserFactory extends Factory
 
         return [
             'phone' => $phone,
-            'phone_hash' => hash('sha256', $phone),
+            'phone_hash' => fn (array $attributes) => hash('sha256', $attributes['phone']),
             'name' => fake()->name(),
             'kvkk_accepted_at' => now(),
             'kvkk_version' => config('zarf.kvkk_version'),

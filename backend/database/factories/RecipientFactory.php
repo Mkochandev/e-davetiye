@@ -20,7 +20,7 @@ class RecipientFactory extends Factory
         return [
             'invitation_id' => Invitation::factory(),
             'phone' => $phone,
-            'phone_hash' => hash('sha256', $phone),
+            'phone_hash' => fn (array $attributes) => hash('sha256', $attributes['phone']),
             'name' => fake()->name(),
             'token' => Str::random(40),
         ];

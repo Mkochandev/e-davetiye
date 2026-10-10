@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 #[Fillable([
@@ -55,6 +56,28 @@ class Event extends Model
     public function invitation(): HasOne
     {
         return $this->hasOne(Invitation::class);
+    }
+
+    public function recipients(): HasManyThrough
+    {
+        return $this->hasManyThrough(Recipient::class, Invitation::class);
+    }
+
+    /**
+     * Salonun eklediği etkinlikte çiftin değiştiremeyeceği alanlar (spec §3.2).
+     *
+     * @return list<string>
+     */
+    public function lockedFields(): array
+    {
+        return $this->created_by === EventCreator::Salon ? self::SALON_LOCKED_FIELDS : [];
+    }
+
+    public const SALON_LOCKED_FIELDS = ['starts_at', 'ends_at', 'venue_name', 'venue_address', 'latitude', 'longitude'];
+
+    public function recipientLimit(): int
+    {
+        return $this->hasPack() ? config('zarf.max_recipient_limit') : config('zarf.free_recipient_limit');
     }
 
     public function purchases(): HasMany
