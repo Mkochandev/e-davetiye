@@ -10,6 +10,11 @@ import 'package:zarf/core/router/router.dart';
 import 'package:zarf/core/storage/token_storage.dart';
 import 'package:zarf/features/events/data/contact_phone.dart';
 import 'package:zarf/features/events/data/contacts_source.dart';
+import 'package:zarf/features/purchase/data/purchase_controller.dart';
+import 'package:zarf/features/purchase/data/pack_store.dart';
+import 'package:zarf/features/purchase/ui/paywall_screen.dart';
+
+import 'support/fake_store.dart';
 
 import 'support/fake_api.dart';
 
@@ -53,6 +58,8 @@ Future<void> pumpWith(WidgetTester tester, FakeApi api, {ContactsSource? contact
         tokenStorageProvider.overrideWithValue(MemoryTokenStorage('t')),
         dioProvider.overrideWith((ref) => createDio(ref)..httpClientAdapter = api),
         if (contacts != null) contactsSourceProvider.overrideWithValue(contacts),
+        packStoreProvider.overrideWithValue(FakePackStore()),
+        pendingPackEventProvider.overrideWithValue(MemoryPendingPackEvent()),
       ],
       child: const ZarfApp(),
     ),
@@ -196,7 +203,7 @@ void main() {
 
       await tester.tap(find.byKey(const Key('template-altin-varak')));
       await tester.pumpAndSettle();
-      expect(find.byKey(const Key('paywall-placeholder')), findsOneWidget);
+      expect(find.byType(PaywallScreen), findsOneWidget);
       await tester.tap(find.byType(BackButton));
       await tester.pumpAndSettle();
 
@@ -204,7 +211,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const Key('seal-color-gold')));
       await tester.pumpAndSettle();
-      expect(find.byKey(const Key('paywall-placeholder')), findsOneWidget);
+      expect(find.byType(PaywallScreen), findsOneWidget);
       expect(saved, isNull);
     });
 
@@ -223,7 +230,7 @@ void main() {
       await tester.tap(find.text('Kaydet'));
       await tester.pumpAndSettle();
 
-      expect(find.byKey(const Key('paywall-placeholder')), findsOneWidget);
+      expect(find.byType(PaywallScreen), findsOneWidget);
     });
   });
 
@@ -287,7 +294,7 @@ void main() {
       expect(find.text('Ücretsiz sınır aşıldı'), findsOneWidget);
       await tester.tap(find.text('Sınırı kaldır').last);
       await tester.pumpAndSettle();
-      expect(find.byKey(const Key('paywall-placeholder')), findsOneWidget);
+      expect(find.byType(PaywallScreen), findsOneWidget);
       expect(added, isNull);
 
       await tester.tap(find.byType(BackButton));
@@ -319,7 +326,7 @@ void main() {
       await tester.tap(find.text('1 kişiyi ekle'));
       await tester.pumpAndSettle();
 
-      expect(find.byKey(const Key('paywall-placeholder')), findsOneWidget);
+      expect(find.byType(PaywallScreen), findsOneWidget);
     });
 
     testWidgets('offers manual entry when contacts permission is denied', (tester) async {

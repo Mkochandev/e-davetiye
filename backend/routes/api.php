@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\V1\EventController;
 use App\Http\Controllers\Api\V1\InboxController;
 use App\Http\Controllers\Api\V1\InvitationController;
 use App\Http\Controllers\Api\V1\MeController;
+use App\Http\Controllers\Api\V1\PurchaseController;
 use App\Http\Controllers\Api\V1\RecipientController;
 use App\Http\Controllers\Api\V1\TemplateController;
 use Illuminate\Support\Facades\Route;
@@ -52,6 +53,7 @@ Route::prefix('v1')->group(function () {
         Route::delete('events/{event}/invitation/recipients/{recipient}', [RecipientController::class, 'destroy'])
             ->scopeBindings();
         Route::post('events/{event}/invitation/send', [InvitationController::class, 'send']);
+        Route::post('purchases', [PurchaseController::class, 'store'])->middleware('throttle:10,1');
         Route::get('events/{event}/invitation/stats', [InvitationController::class, 'stats']);
     });
 });

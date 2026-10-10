@@ -8,6 +8,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:zarf/app.dart';
 import 'package:zarf/core/api/api_client.dart';
 import 'package:zarf/core/storage/token_storage.dart';
+import 'package:zarf/features/purchase/data/pack_store.dart';
+import 'package:zarf/features/purchase/data/purchase_controller.dart';
+
+import 'fake_store.dart';
 
 class FakeResponse {
   const FakeResponse(this.status, [this.body]);
@@ -59,7 +63,7 @@ Map<String, dynamic> userJson({String? name, bool consented = false}) => {
 };
 
 /// Uygulamayı sahte API ve bellek içi token deposuyla açar.
-Future<void> pumpApp(WidgetTester tester, FakeApi api, {String? token}) async {
+Future<void> pumpApp(WidgetTester tester, FakeApi api, {String? token, PackStore? store}) async {
   await initializeDateFormatting('tr_TR');
   api.routes.putIfAbsent(
     'GET /inbox',
@@ -76,6 +80,8 @@ Future<void> pumpApp(WidgetTester tester, FakeApi api, {String? token}) async {
       overrides: [
         tokenStorageProvider.overrideWithValue(MemoryTokenStorage(token)),
         dioProvider.overrideWith((ref) => createDio(ref)..httpClientAdapter = api),
+        packStoreProvider.overrideWithValue(store ?? FakePackStore()),
+        pendingPackEventProvider.overrideWithValue(MemoryPendingPackEvent()),
       ],
       child: const ZarfApp(),
     ),

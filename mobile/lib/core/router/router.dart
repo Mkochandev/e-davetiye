@@ -14,11 +14,11 @@ import '../../features/events/ui/event_create_screen.dart';
 import '../../features/events/ui/event_detail_screen.dart';
 import '../../features/events/ui/events_screen.dart';
 import '../../features/events/ui/invitation_editor_screen.dart';
-import '../../features/events/ui/paywall_placeholder_screen.dart';
 import '../../features/events/ui/recipients_screen.dart';
 import '../../features/events/ui/rsvp_tracking_screen.dart';
 import '../../features/events/ui/send_screen.dart';
 import '../../features/home/ui/home_shell.dart';
+import '../../features/purchase/ui/paywall_screen.dart';
 import '../../features/home/ui/tabs.dart';
 import '../../features/inbox/ui/envelope_open_screen.dart';
 import '../../features/inbox/ui/inbox_screen.dart';
@@ -94,10 +94,10 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: Routes.invitation,
         builder: (_, state) => InvitationScreen(id: int.parse(state.pathParameters['id']!)),
       ),
-      // M14 yer tutucu (Adım 8'de gerçek paywall).
+      // M14
       GoRoute(
         path: Routes.paywall,
-        builder: (_, state) => PaywallPlaceholderScreen(eventId: int.parse(state.pathParameters['id']!)),
+        builder: (_, state) => PaywallScreen(eventId: int.parse(state.pathParameters['id']!)),
       ),
       StatefulShellRoute.indexedStack(
         builder: (_, _, shell) => HomeShell(shell: shell),

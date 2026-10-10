@@ -4,12 +4,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'core/router/router.dart';
 import 'core/theme/app_theme.dart';
+import 'features/purchase/data/purchase_controller.dart';
 
 class ZarfApp extends ConsumerWidget {
   const ZarfApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Satın alma güncellemeleri açılıştan itibaren dinlenir (bekleyen satın almalar dahil); durum değişince
+    // uygulama yeniden çizilmez.
+    ref.watch(packPurchaseProvider.select((_) => null));
+
     return MaterialApp.router(
       title: 'Zarf',
       debugShowCheckedModeBanner: false,

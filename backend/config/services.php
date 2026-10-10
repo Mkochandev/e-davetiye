@@ -41,4 +41,20 @@ return [
         ],
     ],
 
+    /*
+    | Etkinlik Paketi doğrulaması (spec §12). Anahtar dosyaları repoya girmez; yol .env'den.
+    */
+
+    'apple_iap' => [
+        'key_id' => env('APPLE_IAP_KEY_ID'),
+        'issuer_id' => env('APPLE_IAP_ISSUER_ID'),
+        'bundle_id' => env('APPLE_BUNDLE_ID'),
+        'private_key_path' => env('APPLE_IAP_PRIVATE_KEY_PATH'),
+    ],
+
+    'google_play' => [
+        'package_name' => env('GOOGLE_PLAY_PACKAGE_NAME'),
+        'service_account_path' => env('GOOGLE_PLAY_SERVICE_ACCOUNT_PATH'),
+    ],
+
 ];

@@ -30,3 +30,7 @@ Thumbs.db
 /public/css/filament
 /public/js/filament
 /public/fonts/filament
+
+# Mağaza anahtarları (Apple .p8, Google servis hesabı)
+*.p8
+service-account*.json
