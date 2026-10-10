@@ -47,6 +47,15 @@ it('rejects an invalid phone with a Turkish validation message', function () {
     expect($this->sms->sent)->toBeEmpty();
 });
 
+it('sends codes only to mobile numbers', function () {
+    // 0342: Gaziantep sabit hattı.
+    $this->postJson('/api/v1/auth/otp', ['phone' => '0342 111 22 33'])
+        ->assertUnprocessable()
+        ->assertJsonPath('errors.phone.0', 'Giriş kodu yalnız cep telefonu numarasına gönderilebilir.');
+
+    expect($this->sms->sent)->toBeEmpty();
+});
+
 it('allows one code per number every 60 seconds', function () {
     $this->postJson('/api/v1/auth/otp', ['phone' => '5321112233'])->assertNoContent();
 

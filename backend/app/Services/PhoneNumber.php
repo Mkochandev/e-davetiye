@@ -5,6 +5,7 @@ namespace App\Services;
 use Illuminate\Validation\ValidationException;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberFormat;
+use libphonenumber\PhoneNumberType;
 use libphonenumber\PhoneNumberUtil;
 
 /**
@@ -19,6 +20,8 @@ class PhoneNumber
     public const ALLOWED_REGIONS = ['TR'];
 
     public const INVALID_MESSAGE = 'Geçerli bir telefon numarası girin.';
+
+    public const NOT_MOBILE_MESSAGE = 'Giriş kodu yalnız cep telefonu numarasına gönderilebilir.';
 
     public function __construct(private readonly PhoneNumberUtil $util) {}
 
@@ -53,6 +56,20 @@ class PhoneNumber
         }
 
         return $this->util->format($number, PhoneNumberFormat::E164);
+    }
+
+    /**
+     * SMS alabilen (cep) numara mı? Giriş kodu yalnız bunlara gönderilir.
+     */
+    public function isMobile(string $e164): bool
+    {
+        try {
+            $type = $this->util->getNumberType($this->util->parse($e164, self::DEFAULT_REGION));
+        } catch (NumberParseException) {
+            return false;
+        }
+
+        return in_array($type, [PhoneNumberType::MOBILE, PhoneNumberType::FIXED_LINE_OR_MOBILE], true);
     }
 
     /**
