@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/router/router.dart';
@@ -12,30 +13,34 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.stage,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(AppSizes.pagePadding),
-          child: Column(
-            children: [
-              const Spacer(flex: 2),
-              const EnvelopeView(color: 'sage', sealColor: 'bordo', sealText: 'Z', width: 260),
-              const SizedBox(height: 48),
-              Text(
-                'Davetiyen zarfında gelsin',
-                textAlign: TextAlign.center,
-                style: AppFonts.displayStyle(size: 30, weight: FontWeight.w600, color: Colors.white, height: 1.2),
-              ),
-              const SizedBox(height: 12),
-              const Text(
-                'Davetiyeni hazırla, sevdiklerine gönder; gelen zarfları tek yerde aç.',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white70, fontSize: 16, height: 1.5),
-              ),
-              const Spacer(flex: 3),
-              FilledButton(onPressed: () => context.push(Routes.phone), child: const Text('Başla')),
-            ],
+    // Koyu zeminde açık durum çubuğu ikonları.
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light,
+      child: Scaffold(
+        backgroundColor: AppColors.stage,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(AppSizes.pagePadding),
+            child: Column(
+              children: [
+                const Spacer(flex: 2),
+                const EnvelopeView(color: 'sage', sealColor: 'bordo', sealText: 'Z', width: 260),
+                const SizedBox(height: 48),
+                Text(
+                  'Davetiyen zarfında gelsin',
+                  textAlign: TextAlign.center,
+                  style: AppFonts.displayStyle(size: 30, weight: FontWeight.w600, color: Colors.white, height: 1.2),
+                ),
+                const SizedBox(height: 12),
+                const Text(
+                  'Davetiyeni hazırla, sevdiklerine gönder; gelen zarfları tek yerde aç.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white70, fontSize: 16, height: 1.5),
+                ),
+                const Spacer(flex: 3),
+                FilledButton(onPressed: () => context.push(Routes.phone), child: const Text('Başla')),
+              ],
+            ),
           ),
         ),
       ),
