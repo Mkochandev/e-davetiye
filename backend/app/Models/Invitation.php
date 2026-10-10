@@ -40,10 +40,14 @@ class Invitation extends Model
     }
 
     /**
-     * LCV son tarihi (İstanbul günü) geçti mi? Son tarih günü dahil yanıt verilebilir.
+     * LCV kapandı mı? Etkinlik başlayınca kapanır; son tarih varsa o gün (İstanbul) bitince de kapanır.
      */
     public function rsvpClosed(): bool
     {
+        if ($this->event->starts_at->isPast()) {
+            return true;
+        }
+
         return $this->rsvp_deadline !== null
             && now('Europe/Istanbul')->toDateString() > $this->rsvp_deadline->toDateString();
     }

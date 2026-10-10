@@ -41,7 +41,7 @@
             @endif
 
             @if ($invitation->rsvpClosed())
-                <p class="notice" style="margin: 0;">LCV son tarihi geçti, yanıt değiştirilemez.</p>
+                <p class="notice" style="margin: 0;">LCV süresi doldu, yanıt verilemez.</p>
             @else
                 @if ($invitation->rsvp_deadline)
                     <p class="small muted" style="margin: 0 0 12px;">Son yanıt tarihi: {{ \App\Support\EventDate::date($invitation->rsvp_deadline->copy()->setTime(12, 0)) }}</p>

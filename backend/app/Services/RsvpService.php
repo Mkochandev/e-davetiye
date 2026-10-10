@@ -36,7 +36,7 @@ class RsvpService
         }
 
         if ($invitation->rsvpClosed()) {
-            throw ValidationException::withMessages(['status' => 'LCV son tarihi geçti, yanıt değiştirilemez.']);
+            throw ValidationException::withMessages(['status' => 'LCV süresi doldu, yanıt verilemez.']);
         }
 
         $recipient->forceFill([

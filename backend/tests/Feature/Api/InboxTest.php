@@ -148,6 +148,19 @@ it('accepts rsvp on the deadline day and rejects it after', function () {
     expect($envelope->refresh()->rsvp_status)->toBe(RsvpStatus::Attending);
 });
 
+it('closes rsvp once the event has started, even without a deadline', function () {
+    $envelope = envelopeFor($this->guest, ['starts_at' => now()->addHour()]);
+
+    $this->postJson("/api/v1/inbox/{$envelope->id}/rsvp", ['status' => 'attending', 'guest_count' => 1])->assertOk();
+
+    $this->travel(2)->hours();
+
+    $this->postJson("/api/v1/inbox/{$envelope->id}/rsvp", ['status' => 'not_attending'])
+        ->assertUnprocessable()
+        ->assertJsonValidationErrors('status');
+    $this->getJson("/api/v1/inbox/{$envelope->id}")->assertJsonPath('rsvp_open', false);
+});
+
 it('shows a cancelled event and refuses rsvp', function () {
     $envelope = envelopeFor($this->guest, ['cancelled_at' => now()]);
 

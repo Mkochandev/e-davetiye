@@ -39,6 +39,21 @@ it('renders the invitation card with the template and event, not indexed', funct
         ->assertSee('Katılıyorum');
 });
 
+it('serves fonts from our own server only', function () {
+    $html = $this->get($this->url)->assertOk()->getContent();
+
+    expect($html)->toContain(asset('fonts/fonts.css'))
+        ->not->toContain('fonts.googleapis.com')
+        ->not->toContain('fonts.gstatic.com');
+
+    $css = file_get_contents(public_path('fonts/fonts.css'));
+    preg_match_all("/url\('([^']+)'\)/", $css, $files);
+    expect($files[1])->toHaveCount(12);
+    foreach ($files[1] as $file) {
+        expect(public_path("fonts/{$file}"))->toBeFile();
+    }
+});
+
 it('follows the template config', function () {
     $template = Template::factory()->create(['config' => [
         ...Template::factory()->make()->config,
@@ -104,7 +119,7 @@ it('takes an rsvp by token and shows the thank-you screen', function () {
 it('rejects a web rsvp after the deadline', function () {
     $this->invitation->update(['rsvp_deadline' => now('Europe/Istanbul')->subDay()->toDateString()]);
 
-    $this->get($this->url)->assertOk()->assertSee('LCV son tarihi geçti');
+    $this->get($this->url)->assertOk()->assertSee('LCV süresi doldu');
 
     $this->from($this->url)
         ->post("{$this->url}/rsvp", ['status' => 'attending', 'guest_count' => 1])
