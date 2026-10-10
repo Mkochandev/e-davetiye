@@ -121,6 +121,14 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+
+        // Salon kullanıcıları ilk şifrelerini de bu bağlantıyla belirler; bu yüzden süre 24 saat.
+        'salon_users' => [
+            'provider' => 'salon_users',
+            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+            'expire' => 1440,
+            'throttle' => 60,
+        ],
     ],
 
     /*

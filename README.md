@@ -36,6 +36,13 @@ cd backend && php artisan serve
 cd mobile && flutter run --dart-define=API_BASE_URL=http://10.0.2.2:8000/api/v1
 ```
 
+## Paneller
+
+- Admin: http://localhost:8000/admin — seeder: `admin@zarf.test` / `password` (`SEED_ADMIN_*` ile değiştirilir)
+- Salon: http://localhost:8000/salon — demo owner: `salon@zarf.test` ya da `0533 000 00 01` / `password`
+
+Salon kullanıcıları ilk şifrelerini e-postadaki bağlantıyla belirler; local'de e-postalar `storage/logs/laravel.log`'a yazılır.
+
 ## Test
 
 ```bash

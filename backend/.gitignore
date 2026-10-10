@@ -25,3 +25,8 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Filament asset'leri (composer install sonrası filament:upgrade yayınlar)
+/public/css/filament
+/public/js/filament
+/public/fonts/filament

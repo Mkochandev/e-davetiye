@@ -14,6 +14,10 @@ class Salon extends Model
     /** @use HasFactory<SalonFactory> */
     use HasFactory;
 
+    protected $attributes = [
+        'is_active' => true,
+    ];
+
     protected function casts(): array
     {
         return [

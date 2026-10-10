@@ -64,6 +64,26 @@ class PhoneNumber
     }
 
     /**
+     * Ekranda gösterim: `+905321112233` → `0532 111 22 33`.
+     */
+    public function formatNational(string $e164): string
+    {
+        try {
+            return $this->util->format($this->util->parse($e164, self::DEFAULT_REGION), PhoneNumberFormat::NATIONAL);
+        } catch (NumberParseException) {
+            return $e164;
+        }
+    }
+
+    /**
+     * `https://wa.me/905321112233?text=...` (numara başında + olmadan, spec §3.4).
+     */
+    public static function whatsappUrl(string $e164, string $text): string
+    {
+        return 'https://wa.me/'.ltrim($e164, '+').'?text='.rawurlencode($text);
+    }
+
+    /**
      * Log için maskeler: `+905321112233` → `+90532***2233`.
      */
     public static function mask(?string $phone): string
