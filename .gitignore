@@ -1,0 +1,11 @@
+# Ortam dosyaları
+.env
+.env.*
+!.env.example
+
+# Editör / işletim sistemi
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
